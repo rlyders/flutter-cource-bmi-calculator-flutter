@@ -4,11 +4,9 @@ import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
-
-enum Gender {
-  male,
-  female,
-}
+import 'plus_minus_card.dart';
+import 'bmi_data.dart';
+import 'gender.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -16,10 +14,10 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Gender selectedGender;
   Color maleCardColor = kInactiveCardColor;
   Color femaleCardColor = kInactiveCardColor;
-  int height = 180;
+
+  BmiData bmiData = BmiData(height: 130, weight: 60, age: 20);
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +35,10 @@ class _InputPageState extends State<InputPage> {
                   child: ReusableCard(
                     onPress: () {
                       setState(() {
-                        selectedGender = Gender.male;
+                        bmiData.gender = Gender.male;
                       });
                     },
-                    colour: selectedGender == Gender.male
+                    colour: bmiData.gender == Gender.male
                         ? kActiveCardColor
                         : kInactiveCardColor,
                     cardChild: IconContent(
@@ -53,10 +51,10 @@ class _InputPageState extends State<InputPage> {
                   child: ReusableCard(
                     onPress: () {
                       setState(() {
-                        selectedGender = Gender.female;
+                        bmiData.gender = Gender.female;
                       });
                     },
-                    colour: selectedGender == Gender.female
+                    colour: bmiData.gender == Gender.female
                         ? kActiveCardColor
                         : kInactiveCardColor,
                     cardChild: IconContent(
@@ -84,7 +82,7 @@ class _InputPageState extends State<InputPage> {
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
                         Text(
-                          height.toString(),
+                          bmiData.height.toString(),
                           style: kNumberTextStyle,
                         ),
                         Text(
@@ -104,12 +102,12 @@ class _InputPageState extends State<InputPage> {
                           overlayShape:
                               RoundSliderOverlayShape(overlayRadius: 30.0)),
                       child: Slider(
-                        value: height.toDouble(),
+                        value: bmiData.height.toDouble(),
                         min: 120.0,
                         max: 220.0,
                         onChanged: (double newValue) {
                           setState(() {
-                            height = newValue.round();
+                            bmiData.height = newValue.round();
                           });
                         },
                       ),
@@ -121,8 +119,17 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: ReusableCard(
-                    colour: kActiveCardColor,
+                  child: PlusMinusCard(
+                    title: 'WEIGHT',
+                    childText: Text(
+                      bmiData.weight.toString(),
+                      style: kNumberTextStyle,
+                    ),
+                    onValueChange: (addend) {
+                      setState(() {
+                        bmiData.weight += addend;
+                      });
+                    },
                   ),
                 ),
                 Expanded(
