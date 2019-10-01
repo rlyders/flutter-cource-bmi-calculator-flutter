@@ -4,9 +4,9 @@ import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
-import 'plus_minus_card.dart';
 import 'bmi_data.dart';
 import 'gender.dart';
+import 'round_icon_button.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -119,23 +119,82 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: PlusMinusCard(
-                    title: 'WEIGHT',
-                    childText: Text(
-                      bmiData.weight.toString(),
-                      style: kNumberTextStyle,
-                    ),
-                    onValueChange: (addend) {
-                      setState(() {
-                        bmiData.weight += addend;
-                      });
-                    },
-                  ),
+                  child: ReusableCard(
+                      colour: kActiveCardColor,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'HEIGHT',
+                            style: kLabelTextStyle,
+                          ),
+                          Text(
+                            bmiData.weight.toString(),
+                            style: kNumberTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              RoundIconButton(
+                                icon: FontAwesomeIcons.minus,
+                                onPressed: () {
+                                  setState(() {
+                                    bmiData.weight--;
+                                  });
+                                },
+                              ),
+                              SizedBox(width: 10.0),
+                              RoundIconButton(
+                                icon: FontAwesomeIcons.plus,
+                                onPressed: () {
+                                  setState(() {
+                                    bmiData.weight--;
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    colour: kActiveCardColor,
-                  ),
+                      colour: kActiveCardColor,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'AGE',
+                            style: kLabelTextStyle,
+                          ),
+                          Text(
+                            bmiData.age.toString(),
+                            style: kNumberTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              RoundIconButton(
+                                icon: FontAwesomeIcons.minus,
+                                onPressed: () {
+                                  setState(() {
+                                    bmiData.age--;
+                                  });
+                                },
+                              ),
+                              SizedBox(width: 10.0),
+                              RoundIconButton(
+                                icon: FontAwesomeIcons.plus,
+                                onPressed: () {
+                                  setState(() {
+                                    bmiData.age--;
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
                 ),
               ],
             ),
