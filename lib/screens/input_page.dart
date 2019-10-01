@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/screens/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../components/reusable_card.dart';
@@ -8,6 +9,7 @@ import '../bmi_data.dart';
 import '../gender.dart';
 import '../components/round_icon_button.dart';
 import '../components/bottom_button.dart';
+import 'calculator_brain.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -126,7 +128,7 @@ class _InputPageState extends State<InputPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'HEIGHT',
+                            'WEIGHT',
                             style: kLabelTextStyle,
                           ),
                           Text(
@@ -149,7 +151,7 @@ class _InputPageState extends State<InputPage> {
                                 icon: FontAwesomeIcons.plus,
                                 onPressed: () {
                                   setState(() {
-                                    bmiData.weight--;
+                                    bmiData.weight++;
                                   });
                                 },
                               ),
@@ -188,7 +190,7 @@ class _InputPageState extends State<InputPage> {
                                 icon: FontAwesomeIcons.plus,
                                 onPressed: () {
                                   setState(() {
-                                    bmiData.age--;
+                                    bmiData.age++;
                                   });
                                 },
                               ),
@@ -202,7 +204,21 @@ class _InputPageState extends State<InputPage> {
           ),
           BottomButton(
             buttonTitle: 'CALCULATE',
-            onTap: () => Navigator.pushNamed(context, '/calculator'),
+            onTap: () {
+              CalculatorBrain calc = CalculatorBrain(
+                height: bmiData.height,
+                weight: bmiData.weight,
+              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultsPage(
+                      bmiResult: calc.calculateBMI(),
+                      resultText: calc.getResults(),
+                      interpretation: calc.getInterpretation(),
+                    ),
+                  ));
+            },
           )
         ],
       ),
